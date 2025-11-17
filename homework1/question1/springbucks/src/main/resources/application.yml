@@ -1,0 +1,19 @@
+spring:
+
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/xml/*.xml
+  type-aliases-package: geektime.spring.springbucks.model
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    geektime.spring.springbucks: DEBUG

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="springbucks" targetRuntime="MyBatis3">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://xxx:3305/springbucks?useSSL=false&amp;serverTimezone=Asia/Shanghai"
+                        userId="xx"
+                        password="xx"/>
+        <javaModelGenerator targetPackage="geektime.spring.springbucks.model"
+                            targetProject="src/main/java"/>
+        <sqlMapGenerator targetPackage="mapper.xml"
+                         targetProject="src/main/resources"/>
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="geektime.spring.springbucks.mapper"
+                             targetProject="src/main/java"/>
+        <table tableName="t_coffee" domainObjectName="Coffee">
+            <columnOverride column="price" jdbcType="BIGINT" javaType="java.math.BigDecimal"/>
+        </table>
+        <table tableName="t_order" domainObjectName="CoffeeOrder"/>
+    </context>
+</generatorConfiguration>
