@@ -1,8 +1,12 @@
 package geektime.spring.springbucks.model;
 
+import lombok.Builder;
+import lombok.ToString;
+
 import java.math.BigDecimal;
 import java.util.Date;
-
+@ToString(callSuper = true)
+@Builder
 public class Coffee {
     private Long id;
     private String name;

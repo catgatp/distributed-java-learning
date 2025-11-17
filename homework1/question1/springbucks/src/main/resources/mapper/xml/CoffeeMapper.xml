@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="geektime.spring.springbucks.mapper.CoffeeMapper">
 
   <resultMap id="coffeeResultMap" type="geektime.spring.springbucks.model.Coffee">
@@ -13,21 +11,40 @@
     <result property="updateTime" column="update_time"/>
   </resultMap>
 
-  <select id="findAll" resultMap="coffeeResultMap">
-    SELECT id, name, price, create_time, update_time
-    FROM t_coffee
-  </select>
-
-  <select id="findById" parameterType="long" resultMap="coffeeResultMap">
-    SELECT id, name, price, create_time, update_time
-    FROM t_coffee
-    WHERE id = #{id}
-  </select>
-
   <insert id="insert" parameterType="geektime.spring.springbucks.model.Coffee" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO t_coffee(name, price, create_time, update_time)
     VALUES (#{name}, #{price,jdbcType=DECIMAL}, #{createTime}, #{updateTime})
   </insert>
+
+  <update id="update" parameterType="geektime.spring.springbucks.model.Coffee">
+    UPDATE t_coffee
+    SET name=#{name}, price=#{price,jdbcType=DECIMAL}, update_time=#{updateTime}
+    WHERE id=#{id}
+  </update>
+
+  <delete id="deleteById" parameterType="long">
+    DELETE FROM t_coffee WHERE id=#{id}
+  </delete>
+
+  <select id="findById" parameterType="long" resultMap="coffeeResultMap">
+    SELECT id, name, price, create_time, update_time
+    FROM t_coffee
+    WHERE id=#{id}
+  </select>
+
+  <select id="findByIds" resultMap="coffeeResultMap">
+    SELECT id, name, price, create_time, update_time
+    FROM t_coffee
+    WHERE id IN
+    <foreach collection="ids" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </select>
+
+  <select id="findAll" resultMap="coffeeResultMap">
+    SELECT id, name, price, create_time, update_time
+    FROM t_coffee
+  </select>
   <select id="selectAll" resultMap="coffeeResultMap">
     SELECT id, name, price, create_time, update_time
     FROM t_coffee

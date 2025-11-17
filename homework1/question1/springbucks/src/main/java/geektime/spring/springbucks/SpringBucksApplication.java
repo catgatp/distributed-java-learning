@@ -1,5 +1,6 @@
 package geektime.spring.springbucks;
 
+import com.github.pagehelper.PageInfo;
 import geektime.spring.springbucks.model.Coffee;
 import geektime.spring.springbucks.model.CoffeeOrder;
 import geektime.spring.springbucks.model.OrderState;
@@ -14,6 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -50,6 +52,12 @@ public class SpringBucksApplication implements ApplicationRunner {
 
             boolean successInit = orderService.updateState(order, OrderState.INIT);
             log.info("Update PAID -> INIT (should fail): {}", successInit);
+
+
         }
+        List<Coffee> batch = coffeeService.findByIds(List.of(1L, 2L, 3L));
+        log.info("findByIds {}",batch);
+        PageInfo<Coffee> pageInfo = coffeeService.findAllPaged(1, 5);
+        log.info("pageInfo {}",pageInfo);
     }
 }
