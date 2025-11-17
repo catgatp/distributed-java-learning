@@ -4,17 +4,24 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import geektime.spring.springbucks.mapper.CoffeeMapper;
 import geektime.spring.springbucks.model.Coffee;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@CacheConfig(cacheNames = "coffee")
 public class CoffeeService {
     private final CoffeeMapper coffeeMapper;
 
     public CoffeeService(CoffeeMapper coffeeMapper) {
         this.coffeeMapper = coffeeMapper;
+    }
+    @Cacheable
+    public List<Coffee> findAllCoffee() {
+        return coffeeMapper.findAll();
     }
     public Optional<Coffee> findOneCoffee(String name) {
         List<Coffee> all = coffeeMapper.selectAll();

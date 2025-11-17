@@ -13,6 +13,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 @Slf4j
 @SpringBootApplication
+@EnableCaching(proxyTargetClass = true)
 public class SpringBucksApplication implements ApplicationRunner {
 
     @Autowired
@@ -59,5 +61,19 @@ public class SpringBucksApplication implements ApplicationRunner {
         log.info("findByIds {}",batch);
         PageInfo<Coffee> pageInfo = coffeeService.findAllPaged(1, 5);
         log.info("pageInfo {}",pageInfo);
+        runCache();
     }
+    private void runCache() throws Exception{
+        log.info("Count: {}", coffeeService.findAllCoffee().size());
+        for (int i = 0; i < 5; i++) {
+            log.info("Reading from cache.");
+            coffeeService.findAllCoffee();
+        }
+        Thread.sleep(5_000);
+        log.info("Reading after refresh.");
+        coffeeService.findAllCoffee().forEach(c -> log.info("Coffee {}", c.getName()));
+    }
+
+
+
 }
